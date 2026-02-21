@@ -1,0 +1,37 @@
+{
+  "name": "PoligonoVsFormas",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Modules": {
+        "$path": "src/ReplicatedStorage/Modules"
+      }
+    },
+
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "GameManager": {
+        "$path": "src/ServerScriptService/GameManager"
+      }
+    },
+
+    "StarterGui": {
+      "$className": "StarterGui",
+      "GameUI": {
+        "$path": "src/StarterGui/GameUI"
+      }
+    },
+
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "GolpeAbility": {
+          "$path": "src/StarterPlayerScripts/GolpeAbility.client.lua"
+        }
+      }
+    }
+  }
+}

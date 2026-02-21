@@ -1,78 +1,113 @@
-# Polígono vs Formas - Juego Asimétrico de Terror (Roblox)
+# Poligono vs Formas - Juego Asimetrico de Terror (Roblox)
 
-Juego multijugador asimétrico de terror para Roblox Studio. Un jugador es el **Polígono** (el malo) y los demás son **Formas** que deben sobrevivir y escapar.
+Juego multijugador asimetrico de terror para Roblox Studio con **Rojo**. Un jugador es el **Poligono** (el malo) y los demas son **Formas** que deben sobrevivir y escapar.
 
 ## Estructura del Proyecto
 
 ```
+default.project.json          ← Configuracion de Rojo
 src/
-├── ServerScriptService/
-│   └── GameManager.server.lua      -- Script principal del servidor (rondas, roles, daño, puertas)
-├── StarterGui/
-│   └── GameUI.client.lua           -- Toda la UI del jugador (timer, vida, selección, pantallas)
-├── StarterPlayerScripts/
-│   └── GolpeAbility.client.lua     -- Input del Polígono para atacar
 ├── ReplicatedStorage/
-│   └── RemoteEvents/               -- (creados automáticamente por GameManager)
-└── Workspace/                      -- (mapa creado automáticamente)
+│   └── Modules/
+│       ├── Config.lua            ← Constantes compartidas (tiempos, vida, colores)
+│       └── RemoteManager.lua     ← Crea/obtiene RemoteEvents
+├── ServerScriptService/
+│   └── GameManager/
+│       ├── init.server.lua       ← Orquestador principal (bucle de rondas)
+│       ├── MapBuilder.lua        ← Construye mapa, arena, lobby, obstaculos
+│       ├── PlayerManager.lua     ← Roles, atributos, teletransporte, apariencia
+│       ├── DoorSystem.lua        ← Puertas de escape
+│       └── DamageSystem.lua      ← Daño validado en servidor con cooldown
+├── StarterGui/
+│   └── GameUI/
+│       └── init.client.lua       ← UI completa (timer, vida, seleccion, pantallas)
+└── StarterPlayerScripts/
+    └── GolpeAbility.client.lua   ← Input del Poligono para atacar
 ```
 
-## Instalación en Roblox Studio
+## Instalacion con Rojo (recomendado)
 
-1. Abrir Roblox Studio y crear un nuevo lugar vacío (Baseplate).
-2. Eliminar la Baseplate por defecto.
-3. Copiar cada archivo en su ubicación correspondiente:
+1. Instalar [Rojo](https://rojo.space/) (CLI + plugin de Roblox Studio).
+2. Clonar este repositorio.
+3. En la terminal, ejecutar en la carpeta del proyecto:
+   ```bash
+   rojo serve
+   ```
+4. En Roblox Studio, abrir un lugar vacio y conectarse desde el plugin Rojo.
+5. Todos los scripts se sincronizan automaticamente.
+6. Probar con **Test > Local Server** (minimo 2 jugadores).
 
-| Archivo | Destino en Roblox Studio | Tipo |
-|---------|-------------------------|------|
-| `GameManager.server.lua` | `ServerScriptService > GameManager` | Script |
-| `GameUI.client.lua` | `StarterGui > GameUI` | LocalScript |
-| `GolpeAbility.client.lua` | `StarterPlayerScripts > GolpeAbility` | LocalScript |
+## Instalacion manual (sin Rojo)
 
-4. Los RemoteEvents, el mapa y los spawns se crean automáticamente al ejecutar.
-5. Hacer Play con al menos 2 jugadores (usar Test > Local Server con 2+ jugadores).
+Crear estos elementos en Roblox Studio manualmente:
+
+| Archivo | Destino en Studio | Tipo |
+|---------|-------------------|------|
+| `Config.lua` | `ReplicatedStorage.Modules.Config` | ModuleScript |
+| `RemoteManager.lua` | `ReplicatedStorage.Modules.RemoteManager` | ModuleScript |
+| `init.server.lua` | `ServerScriptService.GameManager` | Script |
+| `MapBuilder.lua` | `ServerScriptService.GameManager.MapBuilder` | ModuleScript |
+| `PlayerManager.lua` | `ServerScriptService.GameManager.PlayerManager` | ModuleScript |
+| `DoorSystem.lua` | `ServerScriptService.GameManager.DoorSystem` | ModuleScript |
+| `DamageSystem.lua` | `ServerScriptService.GameManager.DamageSystem` | ModuleScript |
+| `init.client.lua` | `StarterGui.GameUI` | LocalScript |
+| `GolpeAbility.client.lua` | `StarterPlayer.StarterPlayerScripts.GolpeAbility` | LocalScript |
+
+El mapa, spawns, paredes, obstaculos y RemoteEvents se crean automaticamente al ejecutar.
 
 ## Ciclo del Juego
 
 ### Fase 1: Descanso (40 s)
 - Todos en el Lobby
 - Timer en pantalla
+- Espera minimo 2 jugadores
 
-### Fase 2: Selección (30 s)
-- Pantalla negra → se elige un Polígono al azar
-- Las Formas eligen su personaje: Cono, Esfera, Cubo, Tubo o Rectángulo
-- Si no eligen, se asigna una forma aleatoria
+### Fase 2: Seleccion (30 s)
+- Pantalla negra → se elige un Poligono al azar
+- Las Formas eligen personaje: Cono, Esfera, Cubo, Tubo o Rectangulo
+- Si no eligen a tiempo, se asigna una forma aleatoria
 
 ### Fase 3: Partida (5 min)
-- El Polígono caza a las Formas
-- A los 60 s finales se abren puertas de escape
-- Las Formas deben escapar tocando las puertas
+- El Poligono caza a las Formas en una arena oscura con obstaculos
+- A los 60 s finales se abren 3 puertas de escape
+- Las Formas deben tocar una puerta para escapar
 
-## Mecánicas
+### Reinicio
+- 5 s de espera → vuelve a Descanso
 
-### Polígono
+## Mecanicas
+
+### Poligono
 - Habilidad "Golpe": 10 de daño, cooldown 2.1 s
-- Click izquierdo para atacar al jugador más cercano (12 studs de rango)
-- Apariencia negra con material Neon
+- Click izquierdo para atacar al jugador mas cercano (12 studs)
+- Apariencia negra con Neon, ojos rojos, tamaño aumentado
 
 ### Formas
 - 100 puntos de vida
-- Barra de vida en pantalla
-- Cada forma tiene un color diferente
+- Barra de vida animada (verde → amarillo → rojo)
+- Cada forma tiene color unico
+- Indicador de nombre sobre la cabeza
 
 ### Puertas de Escape
-- Se abren cuando quedan 60 segundos
-- 3 puertas en posiciones aleatorias del mapa
-- Tocar una puerta = escapar
+- Aparecen en posiciones aleatorias de la arena
+- Brillan en verde con cartel "SALIDA"
+- Tocar una puerta = escapar al Lobby
+
+### Mapa
+- Lobby separado con suelo claro
+- Arena oscura con paredes perimetrales
+- 8 obstaculos para esconderse
+- Iluminacion tenebrosa (medianoche, niebla, atmosfera oscura)
 
 ## Condiciones de Victoria
-- **Polígono gana**: todas las Formas mueren
+- **Poligono gana**: todas las Formas mueren antes de escapar
 - **Formas ganan**: al menos una Forma escapa
 
-## Requisitos Técnicos Implementados
-- Daño validado en servidor (anti-cheat)
-- Cooldown validado en servidor
-- Atributos de jugador: Role, Health, Escaped, Shape
-- Manejo de desconexiones
-- Mínimo 2 jugadores para iniciar
-- Reinicio automático de rondas
+## Requisitos Tecnicos Implementados
+- Daño validado en servidor (anti-cheat) con verificacion de rango
+- Cooldown validado en servidor (no se puede hacer bypass desde cliente)
+- Atributos de jugador: `Role`, `Health`, `Escaped`, `Shape`
+- Manejo de desconexiones (Poligono se va → Formas ganan)
+- Minimo 2 jugadores para iniciar partida
+- Reinicio automatico de rondas
+- Arquitectura modular (Config, RemoteManager, MapBuilder, PlayerManager, DoorSystem, DamageSystem)
