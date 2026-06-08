@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fluffy Store - Furry Suits & Cosplays</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="logo" href="#">
+        <span class="paw">🐾</span> Fluffy Store
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Shop</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="cart-btn" onclick="toggleCart()">🛒 <span id="cart-count">0</span></button>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CART PANEL -->
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <p class="empty-cart">Your cart is empty.</p>
+    </div>
+    <div class="cart-footer">
+      <span>Total: <strong id="cart-total">$0.00</strong></span>
+      <button class="btn-primary" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+  <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="hero-tag">Premium Furry Fashion</p>
+      <h1>Welcome to<br /><span>Fluffy Store</span></h1>
+      <p class="hero-sub">Handcrafted furry suits & cosplays made with love. Find your inner animal!</p>
+      <div class="hero-btns">
+        <a href="#products" class="btn-primary">Shop Now</a>
+        <a href="#about" class="btn-outline">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="hero-blob">
+        <div class="hero-emoji-grid">
+          <span>🦊</span><span>🐺</span><span>🐱</span>
+          <span>🐻</span><span>🐼</span><span>🐯</span>
+          <span>🦁</span><span>🐨</span><span>🦝</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories">
+    <div class="container">
+      <h2 class="section-title">Browse by Category</h2>
+      <div class="category-grid">
+        <div class="category-card" onclick="filterProducts('fullsuit')">
+          <span>🦊</span>
+          <h3>Full Suits</h3>
+          <p>Head-to-toe fursonas</p>
+        </div>
+        <div class="category-card" onclick="filterProducts('partial')">
+          <span>🐾</span>
+          <h3>Partial Suits</h3>
+          <p>Head, paws & tails</p>
+        </div>
+        <div class="category-card" onclick="filterProducts('cosplay')">
+          <span>🎭</span>
+          <h3>Cosplays</h3>
+          <p>Character costumes</p>
+        </div>
+        <div class="category-card" onclick="filterProducts('accessories')">
+          <span>✨</span>
+          <h3>Accessories</h3>
+          <p>Tails, ears & more</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products-section" id="products">
+    <div class="container">
+      <h2 class="section-title">Our Products</h2>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+        <button class="filter-btn" onclick="filterProducts('fullsuit')">Full Suits</button>
+        <button class="filter-btn" onclick="filterProducts('partial')">Partial Suits</button>
+        <button class="filter-btn" onclick="filterProducts('cosplay')">Cosplays</button>
+        <button class="filter-btn" onclick="filterProducts('accessories')">Accessories</button>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="container about-inner">
+      <div class="about-text">
+        <h2>About <span>Fluffy Store</span></h2>
+        <p>We are a passionate team of fursuit makers and cosplay artists who believe that everyone deserves to express their inner animal. Every suit and costume we create is handcrafted with premium faux fur, reinforced stitching, and built for comfort at cons and events.</p>
+        <p>Founded in 2018, Fluffy Store has dressed over 3,000 happy fursuiters worldwide. We offer custom orders, standard sizes, and quick-ship ready-made items.</p>
+        <div class="stats-row">
+          <div class="stat"><strong>3,000+</strong><span>Happy Customers</span></div>
+          <div class="stat"><strong>50+</strong><span>Species Available</span></div>
+          <div class="stat"><strong>100%</strong><span>Handcrafted</span></div>
+        </div>
+      </div>
+      <div class="about-emojis">
+        <div class="big-emoji-card">
+          <span>🦊</span>
+          <span>🐺</span>
+          <span>🐱</span>
+          <span>🐻</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">What Our Customers Say</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p>"I absolutely love my fox fullsuit! The quality is unmatched and it arrived faster than expected. 10/10 would buy again!"</p>
+          <div class="reviewer"><span>🦊</span> <strong>FoxTrot99</strong></div>
+        </div>
+        <div class="testimonial-card">
+          <p>"The dragon cosplay I ordered was absolutely stunning. So many compliments at the convention. Fluffy Store never disappoints!"</p>
+          <div class="reviewer"><span>🐉</span> <strong>DragonCon_Fan</strong></div>
+        </div>
+        <div class="testimonial-card">
+          <p>"Customer service was super helpful with my custom measurements. My wolf partial looks incredible. Will definitely order again."</p>
+          <div class="reviewer"><span>🐺</span> <strong>WolfPack_Art</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container contact-inner">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="contact-sub">Questions about custom orders? Want to track your shipment? We're here!</p>
+      <form class="contact-form" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+        </div>
+        <input type="text" placeholder="Subject" required />
+        <textarea placeholder="Your message..." rows="5" required></textarea>
+        <button type="submit" class="btn-primary">Send Message 🐾</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo">🐾 Fluffy Store</span>
+        <p>Express your fursona with handcrafted quality suits and cosplays.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#products">Full Suits</a></li>
+          <li><a href="#products">Partial Suits</a></li>
+          <li><a href="#products">Cosplays</a></li>
+          <li><a href="#products">Accessories</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Info</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Size Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#">🐦 Twitter</a>
+          <a href="#">📸 Instagram</a>
+          <a href="#">🎨 FurAffinity</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Fluffy Store. All rights reserved. Made with 🐾 love.</p>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
